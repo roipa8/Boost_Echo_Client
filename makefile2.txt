@@ -1,0 +1,19 @@
+﻿CFLAGS:=-c -Wall -Weffc++ -g -std=c++11 -Iinclude 
+LDFLAGS:=-lboost_system -lboost_thread -pthread
+
+
+all: BGRSClient 
+	g++ -Wall -Weffc++ -o bin/BgrsClient bin/connectionHandler.o bin/InputReader.o bin/OutputWriter.o $(LDFLAGS)
+BGRSclient: bin/BgrsClient bin/connectionHandler.o bin/InputReader.o bin/OutputWriter.o
+
+bin/BgrsClient.o: src/BgrsClient.cpp
+	g++ $(CFLAGS) -o bin/BgrsClient.o src/BgrsClient.cpp
+bin/connectionHandler.o: src/connectionHandler.cpp
+	g++ $(CFLAGS) -o bin/connectionHandler.o src/connectionHandler.cpp
+bin/InputReader.o: src/InputReader.cpp
+	g++ $(CFLAGS) -o bin/InputReader.o src/InputReader.cpp
+bin/OutputWriter.o: src/OutputWriter.cpp
+	g++ $(CFLAGS) -o bin/OutputWriter.o src/OutputWriter.cpp
+
+clean:	
+	rm -f bin/*
