@@ -1,6 +1,7 @@
 #include "../include/connectionHandler.h"
 #include "../include/InputReader.h"
 #include <boost/lexical_cast.hpp>
+using namespace std;
 
 //InputReader::InputReader(ConnectionHandler &connectionHandler) : connectionHandler("127.0.0.1", 7777), optcode() {}
 InputReader::InputReader(ConnectionHandler &_connectionHandler): connectionHandler(_connectionHandler), optcode(), shouldTerminate(false), len(0) {}
