@@ -23,6 +23,17 @@ void InputReader::convertToBytes(const std::string &input, char *bytes, int &len
     std::string command=input.substr(0, input.find_first_of(' ', 0));
     optcode=getOptcode(command);
     shortToBytes(optcode, bytes, len);
+//    if(optcode==1 || optcode==2 || optcode==3 || optcode==8){
+//        convertByUserAndPassword(input,command,bytes,len);
+//    } else{
+//      if(optcode==4){
+//          shouldTerminate= true;
+//      } else{
+//          if(optcode==5 || optcode==6 || optcode==7 || optcode==9 || optcode==10){
+//              convertByCourseNumber(input,command,bytes,len);
+//          }
+//      }
+//    }
     switch (optcode) {
         case 1:
         case 2:
@@ -32,6 +43,7 @@ void InputReader::convertToBytes(const std::string &input, char *bytes, int &len
             break;
         case 4:
             shouldTerminate= true;
+            break;
         case 5:
         case 6:
         case 7:

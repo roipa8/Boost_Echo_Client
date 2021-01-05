@@ -5,19 +5,20 @@ OutputWriter::OutputWriter(ConnectionHandler &_connectionHandler): connectionHan
 
 void OutputWriter::run() {
     while (!shouldTerminate){
-        std::string answer;
+        std::string answer="";
         if (!connectionHandler.getLine(answer)) {
             std::cout << "Disconnected. Exiting...\n" << std::endl;
             break;
         }
-        int len=answer.length();
-        if(answer.at(len)=='\0'){
-            answer.resize(len-1);
-            std::cout <<answer <<std::endl;
-            if(answer=="Ack 4"){
-                shouldTerminate= true;
-            }
-        }
+        std::cout <<answer <<std::endl;
+//        int len=answer.length();
+//        if(answer.at(len)=='\0'){
+//            answer.resize(len-1);
+//            std::cout <<answer <<std::endl;
+//            if(answer=="Ack 4"){
+//                shouldTerminate= true;
+//            }
+//        }
 //        answer.resize(len-1);
 //        std::cout << "Reply: " << answer << " " << len << " bytes " << std::endl << std::endl;
 //        if (answer == "bye") {
