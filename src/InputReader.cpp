@@ -9,6 +9,7 @@ void InputReader::run() {
     while (!shouldTerminate) {
         const short bufsize = 1024;
         char buf[bufsize];
+//        char ans[bufsize];
         std::cin.getline(buf, bufsize);
         std::string line(buf);
         convertToBytes(line, buf,len);
@@ -16,6 +17,7 @@ void InputReader::run() {
             std::cout << "Disconnected. Exiting...\n" << std::endl;
             break;
         }
+        len=0;
     }
 }
 
@@ -115,11 +117,14 @@ short InputReader::getOptcode(std::string command) {
 
 void InputReader::shortToBytes(short num, char *bytesArr, int& len) {
     bytesArr[len++] = ((num >> 8) & 0xFF);
+//    cout<<bytesArr[len-1]<<endl;
     bytesArr[len++] = (num & 0xFF);
+//    cout<<bytesArr[len-1]<<endl;
 }
 
 void InputReader::convertByUserAndPassword(const std::string& input, const std::string& command, char *bytesArr, int &len) {
-    for(int i=command.length()+1; i<input.length(); i++){
+    int inputLength=input.length();
+    for(int i=command.length()+1; i<inputLength; i++){
         if(input.at(i)==' '){
             bytesArr[len++]='\0';
         }

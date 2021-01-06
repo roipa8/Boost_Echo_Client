@@ -18,7 +18,7 @@ int main (int argc, char *argv[]) {
         std::cerr << "Cannot connect to " << host << ":" << port << std::endl;
         return 1;
     }
-    bool shouldTerminate= false;
+//    bool shouldTerminate= false;
     InputReader inputReader(connectionHandler);
     OutputWriter outputWriter(connectionHandler);
 //    while (!shouldTerminate) {
