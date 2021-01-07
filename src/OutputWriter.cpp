@@ -1,7 +1,7 @@
 #include "../include/OutputWriter.h"
 #include "string"
 
-OutputWriter::OutputWriter(ConnectionHandler &_connectionHandler, bool &_shouldTerminate, bool &_canProceed): connectionHandler(_connectionHandler), shouldTerminate(_shouldTerminate), canProceed(_canProceed) {}
+OutputWriter::OutputWriter(ConnectionHandler &_connectionHandler, bool &_shouldTerminate, bool &_canProceed): connectionHandler(_connectionHandler), shouldTerminate(_shouldTerminate), canProceed(_canProceed), answer("") {}
 void OutputWriter::run() {
     while (!shouldTerminate) {
         answer="";
