@@ -3,13 +3,11 @@
 #include <boost/lexical_cast.hpp>
 using namespace std;
 
-//InputReader::InputReader(ConnectionHandler &connectionHandler) : connectionHandler("127.0.0.1", 7777), optcode() {}
-InputReader::InputReader(ConnectionHandler &_connectionHandler): connectionHandler(_connectionHandler), optcode(), shouldTerminate(false), len(0) {}
+InputReader::InputReader(ConnectionHandler &_connectionHandler, std::atomic<bool> &_shouldTerminate): connectionHandler(_connectionHandler), optcode(),shouldTerminate(_shouldTerminate), len(0) {}
 void InputReader::run() {
     while (!shouldTerminate) {
         const short bufsize = 1024;
         char buf[bufsize];
-//        char ans[bufsize];
         std::cin.getline(buf, bufsize);
         std::string line(buf);
         convertToBytes(line, buf,len);
@@ -17,10 +15,27 @@ void InputReader::run() {
             std::cout << "Disconnected. Exiting...\n" << std::endl;
             break;
         }
+        if(line=="LOGOUT"){ //To make sure that the thread won't enter the final iteration in case that the logout command is valid
+            sleep(1);
+        }
         len=0;
     }
 }
-
+//void InputReader::run(bool &shouldTerminate) {
+//    while (!shouldTerminate) {
+//        const short bufsize = 1024;
+//        char buf[bufsize];
+//        std::cin.getline(buf, bufsize);
+//        std::string line(buf);
+//        convertToBytes(line, buf,len);
+//        if (!connectionHandler.sendBytes(buf, len)) {
+//            std::cout << "Disconnected. Exiting...\n" << std::endl;
+//            break;
+//        }
+//        len=0;
+//    }
+//}
+//
 void InputReader::convertToBytes(const std::string &input, char *bytes, int &len) {
     std::string command=input.substr(0, input.find_first_of(' ', 0));
     optcode=getOptcode(command);
@@ -44,7 +59,8 @@ void InputReader::convertToBytes(const std::string &input, char *bytes, int &len
             convertByUserAndPassword(input,command,bytes,len);
             break;
         case 4:
-            shouldTerminate= true;
+        case 11:
+            bytes[len++]='\0';
             break;
         case 5:
         case 6:
@@ -95,7 +111,7 @@ short InputReader::getOptcode(std::string command) {
                                     if(command=="ISREGISTERED"){
                                         optcode=9;
                                     } else{
-                                        if(command=="UNREGISTERED"){
+                                        if(command=="UNREGISTER"){
                                             optcode=10;
                                         } else{
                                             if(command=="MYCOURSES"){

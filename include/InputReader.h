@@ -1,5 +1,6 @@
 #include "../include/connectionHandler.h"
 #include "string"
+#include <atomic>
 
 #ifndef BOOST_ECHO_CLIENT_INPUTREADER_H
 #define BOOST_ECHO_CLIENT_INPUTREADER_H
@@ -7,7 +8,7 @@
 
 class InputReader {
 public:
-    InputReader(ConnectionHandler &connectionHandler);
+    InputReader(ConnectionHandler &connectionHandler, std::atomic<bool> &shouldTerminate);
     void run();
     void convertToBytes(const std::string& input, char bytes[], int &len);
     void shortToBytes(short num, char bytesArr[], int& len);
@@ -19,7 +20,8 @@ public:
 private:
     ConnectionHandler &connectionHandler;
     short optcode;
-    bool shouldTerminate;
+    std::atomic<bool> &shouldTerminate;
+//    bool &shouldTerminate;
     int len;
 
 };

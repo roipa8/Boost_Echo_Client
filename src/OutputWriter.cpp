@@ -1,16 +1,29 @@
 #include "../include/OutputWriter.h"
 #include "string"
 
-OutputWriter::OutputWriter(ConnectionHandler &_connectionHandler): connectionHandler(_connectionHandler), shouldTerminate(false) {}
-
+OutputWriter::OutputWriter(ConnectionHandler &_connectionHandler, std::atomic<bool> &_shouldTerminate): connectionHandler(_connectionHandler), shouldTerminate(_shouldTerminate) {}
 void OutputWriter::run() {
-    while (!shouldTerminate){
-        std::string answer="";
+    while (!shouldTerminate) {
+        answer="";
         if (!connectionHandler.getLine(answer)) {
             std::cout << "Disconnected. Exiting...\n" << std::endl;
             break;
         }
-        std::cout <<answer <<std::endl;
+        std::cout << answer << std::endl;
+        if(answer=="ACK 4"){
+            shouldTerminate=true;
+        }
+    }
+}
+
+//void OutputWriter::run() {
+//    while (!shouldTerminate){
+//        std::string answer="";
+//        if (!connectionHandler.getLine(answer)) {
+//            std::cout << "Disconnected. Exiting...\n" << std::endl;
+//            break;
+//        }
+//        std::cout <<answer <<std::endl;
 //        int len=answer.length();
 //        if(answer.at(len)=='\0'){
 //            answer.resize(len-1);
@@ -25,6 +38,6 @@ void OutputWriter::run() {
 //            std::cout << "Exiting...\n" << std::endl;
 //            break;
 //        }
-    }
-}
+//    }
+//}
 
