@@ -18,9 +18,11 @@ int main (int argc, char *argv[]) {
         std::cerr << "Cannot connect to " << host << ":" << port << std::endl;
         return 1;
     }
-    std::atomic<bool> shouldTerminate(false);
-    InputReader inputReader(connectionHandler, shouldTerminate);
-    OutputWriter outputWriter(connectionHandler, shouldTerminate);
+    bool shouldTerminate=false;
+    bool canProceed= false;
+//    std::atomic<bool> shouldTerminate(false);
+    InputReader inputReader(connectionHandler, shouldTerminate, canProceed);
+    OutputWriter outputWriter(connectionHandler, shouldTerminate, canProceed);
     std::thread socket_thread(&OutputWriter::run,&outputWriter);
     std::thread keyboard_thread(&InputReader::run, &inputReader);
 //    std::thread socket_thread(&OutputWriter::run(&shouldTerminate), &outputWriter);

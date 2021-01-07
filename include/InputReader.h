@@ -8,7 +8,7 @@
 
 class InputReader {
 public:
-    InputReader(ConnectionHandler &connectionHandler, std::atomic<bool> &shouldTerminate);
+    InputReader(ConnectionHandler &connectionHandler, bool &shouldTerminate, bool &canProceed);
     void run();
     void convertToBytes(const std::string& input, char bytes[], int &len);
     void shortToBytes(short num, char bytesArr[], int& len);
@@ -20,9 +20,10 @@ public:
 private:
     ConnectionHandler &connectionHandler;
     short optcode;
-    std::atomic<bool> &shouldTerminate;
-//    bool &shouldTerminate;
+//    std::atomic<bool> &shouldTerminate;
+    bool &shouldTerminate;
     int len;
+    bool &canProceed;
 
 };
 

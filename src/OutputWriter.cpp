@@ -1,7 +1,7 @@
 #include "../include/OutputWriter.h"
 #include "string"
 
-OutputWriter::OutputWriter(ConnectionHandler &_connectionHandler, std::atomic<bool> &_shouldTerminate): connectionHandler(_connectionHandler), shouldTerminate(_shouldTerminate) {}
+OutputWriter::OutputWriter(ConnectionHandler &_connectionHandler, bool &_shouldTerminate, bool &_canProceed): connectionHandler(_connectionHandler), shouldTerminate(_shouldTerminate), canProceed(_canProceed) {}
 void OutputWriter::run() {
     while (!shouldTerminate) {
         answer="";
@@ -12,6 +12,10 @@ void OutputWriter::run() {
         std::cout << answer << std::endl;
         if(answer=="ACK 4"){
             shouldTerminate=true;
+            canProceed= true;
+        }
+        if(answer=="ERROR 4"){
+            canProceed= true;
         }
     }
 }

@@ -3,9 +3,10 @@
 #include <boost/lexical_cast.hpp>
 using namespace std;
 
-InputReader::InputReader(ConnectionHandler &_connectionHandler, std::atomic<bool> &_shouldTerminate): connectionHandler(_connectionHandler), optcode(),shouldTerminate(_shouldTerminate), len(0) {}
+InputReader::InputReader(ConnectionHandler &_connectionHandler, bool &_shouldTerminate, bool &_canProceed): connectionHandler(_connectionHandler), optcode(),shouldTerminate(_shouldTerminate),canProceed(_canProceed), len(0) {}
 void InputReader::run() {
     while (!shouldTerminate) {
+        canProceed= false;
         const short bufsize = 1024;
         char buf[bufsize];
         std::cin.getline(buf, bufsize);
@@ -16,7 +17,8 @@ void InputReader::run() {
             break;
         }
         if(line=="LOGOUT"){ //To make sure that the thread won't enter the final iteration in case that the logout command is valid
-            sleep(1);
+            while (!canProceed){
+            }
         }
         len=0;
     }

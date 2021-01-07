@@ -9,12 +9,13 @@
 class OutputWriter {
 public:
     void run();
-    OutputWriter(ConnectionHandler &connectionHandler,std::atomic<bool> &_shouldTerminate);
+    OutputWriter(ConnectionHandler &connectionHandler,bool &shouldTerminate, bool &canProceed);
 
 private:
     ConnectionHandler& connectionHandler;
-    std::atomic<bool> &shouldTerminate;
-//    bool& shouldTerminate;
+//    std::atomic<bool> &shouldTerminate;
+    bool& shouldTerminate;
+    bool &canProceed;
     std::string answer;
 };
 
